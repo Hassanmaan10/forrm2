@@ -8,6 +8,8 @@ import { Button } from "@/components/ui/button";
 import { Form } from "@/components/ui/form";
 import SignupField from "../components/signup/SignupField";
 
+import { useRouter } from "next/navigation";
+
 const formSchema = z
   .object({
     firstname: z
@@ -59,20 +61,19 @@ export default function SignUpForm() {
     },
   });
 
+  const router = useRouter();
+
   // 2. Define a submit handler.
   async function onSubmit(values: z.infer<typeof formSchema>) {
     try {
       const res = await fetch("/api/signup", {
         method: "POST",
-        headers: { "Content-type": "application/json" },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify(values),
       });
-      console.log(await res.json());
       if (res.ok) {
-        console.log("Account created");
-        return;
+        router.replace("/dashboard");
       }
-      alert("Signup failed. Please check your info and try again.");
     } catch (error) {
       alert(`Network error. Please try again.${error}`);
     }
@@ -83,41 +84,52 @@ export default function SignUpForm() {
       <div className="w-full max-w-md">
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-            <SignupField
-              name="firstname"
-              label="First Name"
-              placeholder="First Name"
-              type="text"
-            />
+            <fieldset
+              disabled={form.formState.isSubmitting}
+              className="space-y-8"
+            >
+              <SignupField
+                name="firstname"
+                label="First Name"
+                placeholder="First Name"
+                type="text"
+              />
 
-            <SignupField
-              name="lastname"
-              label="Last Name"
-              placeholder="Last Name"
-              type="text"
-            />
+              <SignupField
+                name="lastname"
+                label="Last Name"
+                placeholder="Last Name"
+                type="text"
+              />
 
-            <SignupField
-              name="email"
-              label="Email"
-              placeholder="Email"
-              type="email"
-            />
+              <SignupField
+                name="email"
+                label="Email"
+                placeholder="Email"
+                type="email"
+              />
 
-            <SignupField
-              name="password"
-              label="Password"
-              placeholder="Password"
-              type="password"
-            />
+              <SignupField
+                name="password"
+                label="Password"
+                placeholder="Password"
+                type="password"
+              />
 
-            <SignupField
-              name="confirmPassword"
-              label="Confirm Password"
-              placeholder="Confirm Password"
-              type="password"
-            />
-            <Button type="submit">Submit</Button>
+              <SignupField
+                name="confirmPassword"
+                label="Confirm Password"
+                placeholder="Confirm Password"
+                type="password"
+              />
+              <Button
+                type="submit"
+                className="w-full"
+                disabled={form.formState.isSubmitting}
+              >
+                {form.formState.isSubmitting ? "Submitting..." : "Submit"}
+              </Button>
+            </fieldset>
           </form>
         </Form>
       </div>

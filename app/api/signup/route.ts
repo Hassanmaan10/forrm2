@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import z from "zod";
+import { z } from "zod";
 
 const formSchema = z.object({
   firstname: z
@@ -45,7 +45,22 @@ export async function POST(req: NextRequest) {
         { status: 422 }
       );
     }
-    return NextResponse.json({ message: "Account created" }, { status: 201 });
+    const token = crypto.randomUUID();
+
+    const res = NextResponse.json(
+      { message: "Account created" },
+      { status: 201 }
+    );
+
+    res.cookies.set({
+      name: "value_token",
+      value: token,
+      httpOnly: true,
+      sameSite: "lax",
+      path: "/",
+      maxAge: 60 * 60 * 24 * 7,
+    });
+    return res;
   } catch (err) {
     console.error("POST /api/signup error:", err);
     return NextResponse.json({ message: "Server error" }, { status: 500 });

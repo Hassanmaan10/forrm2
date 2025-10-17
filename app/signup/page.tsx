@@ -6,7 +6,7 @@ import { z } from "zod";
 
 import { Button } from "@/components/ui/button";
 import { Form } from "@/components/ui/form";
-import SignupField from "../components/signup/SignupField";
+import SignupField from "../components/signup-feat/SignupField";
 
 import { useRouter } from "next/navigation";
 

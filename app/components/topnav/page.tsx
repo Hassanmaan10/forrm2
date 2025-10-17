@@ -1,9 +1,12 @@
 import Link from "next/link";
+import DialogDemo from "../dialog/page";
 
 export default function TopNav() {
   return (
     <header className="mx-auto max-w-7xl px-6 py-6 flex items-center justify-between">
-      <span className="text-lg font-semibold tracking-tight">✨ MyApp</span>
+      <span className="text-lg font-semibold tracking-tight">
+        <DialogDemo />
+      </span>
       <nav className="flex items-center gap-3">
         <Link
           href="/signup"

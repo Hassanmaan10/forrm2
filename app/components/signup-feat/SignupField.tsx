@@ -8,12 +8,12 @@ import {
 import { Input } from "@/components/ui/input";
 import { useFormContext } from "react-hook-form";
 
-type Props = {
+interface Props {
   name: string;
   label: string;
   placeholder: string;
   type: string;
-};
+}
 
 export default function SignupField({ name, label, placeholder, type }: Props) {
   const form = useFormContext();

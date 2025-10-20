@@ -10,32 +10,11 @@ import {
 import { useDialog } from "@/app/providers/dialog";
 
 export default function SignupDialog() {
-  const { open, close } = useDialog();
+  const { open } = useDialog();
 
   function openEditProfile() {
     // This JSX becomes the body inside the global dialog
-    open(
-      <div>
-        <DialogHeader>
-          <DialogTitle>Password rules</DialogTitle>
-          <DialogDescription>
-            Your password must meet these requirements.
-          </DialogDescription>
-        </DialogHeader>
-
-        <ul className="mt-4 list-disc space-y-1 pl-5 text-sm">
-          <li>At least 8 characters</li>
-          <li>Maximum 72 characters</li>
-          <li>At least one letter (A–Z)</li>
-          <li>At least one number (0–9)</li>
-          <li>At least one special character (!@#$…)</li>
-        </ul>
-
-        <DialogFooter className="mt-6">
-          <Button onClick={close}>Got it</Button>
-        </DialogFooter>
-      </div>
-    );
+    open(<SignIn />);
   }
 
   return (
@@ -45,5 +24,32 @@ export default function SignupDialog() {
     >
       Open Dialog
     </Button>
+  );
+}
+
+function SignIn() {
+  const { close } = useDialog();
+
+  return (
+    <div>
+      <DialogHeader>
+        <DialogTitle>Password rules</DialogTitle>
+        <DialogDescription>
+          Your password must meet these requirements.
+        </DialogDescription>
+      </DialogHeader>
+
+      <ul className="mt-4 list-disc space-y-1 pl-5 text-sm">
+        <li>At least 8 characters</li>
+        <li>Maximum 72 characters</li>
+        <li>At least one letter (A–Z)</li>
+        <li>At least one number (0–9)</li>
+        <li>At least one special character (!@#$…)</li>
+      </ul>
+
+      <DialogFooter className="mt-6">
+        <Button onClick={close}>Got it</Button>
+      </DialogFooter>
+    </div>
   );
 }

@@ -9,6 +9,7 @@ import { Form } from "@/components/ui/form";
 import SignupField from "../components/signup-feat/SignupField";
 
 import { useRouter } from "next/navigation";
+import SignupDialog from "../components/dialog/signup_dialog/page";
 
 const formSchema = z
   .object({
@@ -80,7 +81,13 @@ export default function SignUpForm() {
   }
 
   return (
-    <div className="min-h-[100svh] flex items-center justify-center px-4">
+    <div className="relative min-h-[100svh] flex items-center justify-center px-4">
+      {/* Top-left dialog trigger */}
+      <div className="absolute left-4 top-4">
+        <SignupDialog />
+      </div>
+
+      {/* Centered form */}
       <div className="w-full max-w-md">
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
@@ -94,28 +101,24 @@ export default function SignUpForm() {
                 placeholder="First Name"
                 type="text"
               />
-
               <SignupField
                 name="lastname"
                 label="Last Name"
                 placeholder="Last Name"
                 type="text"
               />
-
               <SignupField
                 name="email"
                 label="Email"
                 placeholder="Email"
                 type="email"
               />
-
               <SignupField
                 name="password"
                 label="Password"
                 placeholder="Password"
                 type="password"
               />
-
               <SignupField
                 name="confirmPassword"
                 label="Confirm Password"

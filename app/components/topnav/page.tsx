@@ -1,5 +1,5 @@
 import Link from "next/link";
-import DialogDemo from "../dialog/page";
+import DialogDemo from "../dialog/homedialog/page";
 
 export default function TopNav() {
   return (

@@ -1,3 +1,4 @@
+import { setAuthCookie } from "@/lib/utils";
 import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
 
@@ -34,10 +35,8 @@ const formSchema = z.object({
 // 2) Handle POST /api/signup
 export async function POST(req: NextRequest) {
   try {
-    // 2a) Parse JSON body
     const body = await req.json();
 
-    // 2b) Validate with Zod
     const parsed = formSchema.safeParse(body);
     if (!parsed.success) {
       return NextResponse.json(
@@ -52,14 +51,7 @@ export async function POST(req: NextRequest) {
       { status: 201 }
     );
 
-    res.cookies.set({
-      name: "value_token",
-      value: token,
-      httpOnly: true,
-      sameSite: "lax",
-      path: "/",
-      maxAge: 60 * 60 * 24 * 7,
-    });
+    setAuthCookie(res, token);
     return res;
   } catch (err) {
     console.error("POST /api/signup error:", err);

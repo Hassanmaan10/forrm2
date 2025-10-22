@@ -85,6 +85,7 @@ export default function SignUpForm() {
         });
         return; // important: do not redirect when there is an error
       }
+      toast.success("Signup successful");
       router.replace(RoutePath.Dashboard);
     } catch (error) {
       alert(`Network error. Please try again.${error}`);

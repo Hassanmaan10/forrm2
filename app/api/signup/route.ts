@@ -1,5 +1,5 @@
-import { ApiMessage, RoutePath } from "@/app/enums";
-import { setAuthCookie } from "@/lib/utils";
+import { ApiMessage, CookieName, RoutePath } from "@/app/enums";
+import { setCookie } from "@/lib/utils";
 import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
 
@@ -68,7 +68,7 @@ export async function POST(req: NextRequest) {
       { status: 201 }
     );
 
-    setAuthCookie(res, token);
+    setCookie(res, CookieName.Auth, token);
     return res;
   } catch {
     return NextResponse.json(

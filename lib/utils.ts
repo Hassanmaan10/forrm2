@@ -6,11 +6,9 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
 
-export const AUTH_COOKIE = "value_token";
-
-//put the token in a cookie on the t
-export function setAuthCookie(res: NextResponse, token: string) {
-  res.cookies.set(AUTH_COOKIE, token, {
+/** Set ANY cookie by key + value (safe defaults) */
+export function setCookie(res: NextResponse, key: string, value: string) {
+  res.cookies.set(key, value, {
     httpOnly: true,
     sameSite: "lax",
     path: "/",
@@ -18,9 +16,9 @@ export function setAuthCookie(res: NextResponse, token: string) {
   });
 }
 
-//remove the cookie
-export function clearAuthCookie(res: NextResponse) {
-  res.cookies.set(AUTH_COOKIE, "", {
+/** Clear ANY cookie by key */
+export function clearCookie(res: NextResponse, key: string) {
+  res.cookies.set(key, "", {
     httpOnly: true,
     sameSite: "lax",
     path: "/",

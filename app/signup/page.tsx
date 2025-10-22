@@ -10,6 +10,7 @@ import SignupField from "../components/signup-feat/SignupField";
 
 import { useRouter } from "next/navigation";
 import SignupDialog from "../components/dialog/signup_dialog/page";
+import { toast } from "sonner";
 
 const formSchema = z
   .object({
@@ -72,9 +73,18 @@ export default function SignUpForm() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(values),
       });
-      if (res.ok) {
-        router.replace("/dashboard");
+      // Read JSON safely (even if server returns no body on error)
+      // const data = await res.json().catch(() => ({}));
+      // console.log("signup response:", res.status, data);
+
+      if (!res.ok) {
+        toast.error("Signup failed", {
+          description:
+            "Something went wrong. Please check your info and try again.",
+        });
+        return; // important: do not redirect when there is an error
       }
+      router.replace("/dashboard");
     } catch (error) {
       alert(`Network error. Please try again.${error}`);
     }

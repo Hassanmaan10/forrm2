@@ -35,19 +35,27 @@ const formSchema = z.object({
 // 2) Handle POST /api/signup
 export async function POST(req: NextRequest) {
   try {
+    // 2a) Parse JSON body
     const body = await req.json();
 
+    // 🔴 TEMP: force a 500 to test the toast
+    // if (body?.email === "boom@test.com") {
+    //   throw new Error("TEST 500");
+    // }
+
+    // 2b) Validate with Zod
     const parsed = formSchema.safeParse(body);
     if (!parsed.success) {
+      const fieldErrors = parsed.error.flatten().fieldErrors;
       return NextResponse.json(
-        { message: "Validation failed" },
+        { ok: false, message: "Validation failed", errors: fieldErrors },
         { status: 422 }
       );
     }
     const token = crypto.randomUUID();
 
     const res = NextResponse.json(
-      { message: "Account created" },
+      { ok: true, message: "Account created", redirectTo: "/dashboard" },
       { status: 201 }
     );
 
@@ -55,6 +63,9 @@ export async function POST(req: NextRequest) {
     return res;
   } catch (err) {
     console.error("POST /api/signup error:", err);
-    return NextResponse.json({ message: "Server error" }, { status: 500 });
+    return NextResponse.json(
+      { ok: false, message: "Server error" },
+      { status: 500 }
+    );
   }
 }

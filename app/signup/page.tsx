@@ -11,6 +11,7 @@ import SignupField from "../components/signup-feat/SignupField";
 import { useRouter } from "next/navigation";
 import SignupDialog from "../components/dialog/signup_dialog/page";
 import { toast } from "sonner";
+import { RoutePath } from "../enums";
 
 const formSchema = z
   .object({
@@ -84,7 +85,7 @@ export default function SignUpForm() {
         });
         return; // important: do not redirect when there is an error
       }
-      router.replace("/dashboard");
+      router.replace(RoutePath.Dashboard);
     } catch (error) {
       alert(`Network error. Please try again.${error}`);
     }

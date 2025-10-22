@@ -1,3 +1,4 @@
+import { ApiMessage, RoutePath } from "@/app/enums";
 import { setAuthCookie } from "@/lib/utils";
 import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
@@ -48,23 +49,30 @@ export async function POST(req: NextRequest) {
     if (!parsed.success) {
       const fieldErrors = parsed.error.flatten().fieldErrors;
       return NextResponse.json(
-        { ok: false, message: "Validation failed", errors: fieldErrors },
+        {
+          ok: false,
+          message: ApiMessage.ValidationFialed,
+          errors: fieldErrors,
+        },
         { status: 422 }
       );
     }
     const token = crypto.randomUUID();
 
     const res = NextResponse.json(
-      { ok: true, message: "Account created", redirectTo: "/dashboard" },
+      {
+        ok: true,
+        message: ApiMessage.AccountCreated,
+        redirectTo: RoutePath.Dashboard,
+      },
       { status: 201 }
     );
 
     setAuthCookie(res, token);
     return res;
-  } catch (err) {
-    console.error("POST /api/signup error:", err);
+  } catch {
     return NextResponse.json(
-      { ok: false, message: "Server error" },
+      { ok: false, message: ApiMessage.ServerError },
       { status: 500 }
     );
   }

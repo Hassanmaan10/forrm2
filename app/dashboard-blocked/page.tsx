@@ -1,3 +1,5 @@
+import { RoutePath } from "../enums";
+
 // app/signup-blocked/page.tsx
 export default function SignupBlockedPage() {
   return (
@@ -5,7 +7,7 @@ export default function SignupBlockedPage() {
       <div className="rounded-xl border p-6 text-center">
         <h1 className="text-2xl font-semibold">You need to Sign in</h1>
         <p className="mt-2 text-gray-600">Sign in to access your dashboard</p>
-        <a href="/signup" className="mt-4 inline-block underline">
+        <a href={RoutePath.Signup} className="mt-4 inline-block underline">
           Go to sign in
         </a>
       </div>

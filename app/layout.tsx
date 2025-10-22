@@ -31,7 +31,7 @@ export default function RootLayout({
       >
         <AppDialogProvider>
           {children}
-          <Toaster richColors position="top-center" expand={false} />
+          <Toaster richColors position="top-right" expand={false} />
         </AppDialogProvider>
       </body>
     </html>

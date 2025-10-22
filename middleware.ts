@@ -1,21 +1,20 @@
 // middleware.ts
 import type { NextRequest } from "next/server";
 import { NextResponse } from "next/server";
-
-const AUTH_COOKIE = "value_token"; // same name you set in signup
+import { CookieName, RoutePath } from "./app/enums";
 
 export function middleware(req: NextRequest) {
-  const isAuthed = Boolean(req.cookies.get(AUTH_COOKIE)?.value);
+  const isAuthed = Boolean(req.cookies.get(CookieName.Auth)?.value);
   const { pathname } = req.nextUrl;
 
   // If LOGGED IN → block /signup (send to /dashboard)
-  if (isAuthed && pathname === "/signup") {
-    return NextResponse.redirect(new URL("/signup-blocked", req.url));
+  if (isAuthed && pathname === RoutePath.Signup) {
+    return NextResponse.redirect(new URL(RoutePath.SignupBlocked, req.url));
   }
 
   // If NOT LOGGED IN → block /dashboard (send to /signup)
-  if (!isAuthed && pathname === "/dashboard") {
-    return NextResponse.redirect(new URL("/dashboard-blocked", req.url));
+  if (!isAuthed && pathname === RoutePath.Dashboard) {
+    return NextResponse.redirect(new URL(RoutePath.DashboardBlocked, req.url));
   }
 
   // Otherwise, allow
@@ -23,5 +22,5 @@ export function middleware(req: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/signup", "/dashboard/:path*"],
+  matcher: [RoutePath.Signup, `${RoutePath.Dashboard}/:path*`],
 };
